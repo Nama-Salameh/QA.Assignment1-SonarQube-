@@ -37,7 +37,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		new Editor();
 	}
 
-	public JEditorPane TP;//Text Panel
+	public JEditorPane textPanel;
 	public JMenuBar menu;//Menu
 	public JMenuItem copy, paste, cut, move;
 	public boolean changed = false;
@@ -51,10 +51,10 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	public Editor() {
 		//Editor the name of our application
 		super("Editor");
-		TP = new JEditorPane();
+		textPanel = new JEditorPane();
 		// center means middle of container.
-		add(new JScrollPane(TP), "Center");
-		TP.getDocument().addDocumentListener(this);
+		add(new JScrollPane(textPanel), "Center");
+		textPanel.getDocument().addDocumentListener(this);
 
 		menu = new JMenuBar();
 		setJMenuBar(menu);
@@ -163,7 +163,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 				if (file == null) {
 					saveAs(actions[1]);
 				} else {
-					String text = TP.getText();
+					String text = textPanel.getText();
 					System.out.println(text);
 					try (PrintWriter writer = new PrintWriter(file);){
 						if (!file.canWrite())
@@ -193,7 +193,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 					saveAs(actions[1]);
 					return;
 				}
-				String text = TP.getText();
+				String text = textPanel.getText();
 				System.out.println(text);
 				try (PrintWriter writer = new PrintWriter(file);){
 					if (!file.canWrite())
@@ -205,19 +205,19 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 				}
 			}
 			file = null;
-			TP.setText("");
+			textPanel.setText("");
 			changed = false;
 			setTitle("Editor");
 		} else if (action.equals(actions[5])) {
 			saveAs(actions[5]);
 		} else if (action.equals("Select All")) {
-			TP.selectAll();
+			textPanel.selectAll();
 		} else if (action.equals("Copy")) {
-			TP.copy();
+			textPanel.copy();
 		} else if (action.equals("Cut")) {
-			TP.cut();
+			textPanel.cut();
 		} else if (action.equals("Paste")) {
-			TP.paste();
+			textPanel.paste();
 		} else if (action.equals("Find")) {
 			FindDialog find = new FindDialog(this, true);
 			find.showDialog();
@@ -249,7 +249,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 						saveAs(actions[1]);
 						return;
 					}
-					String text = TP.getText();
+					String text = textPanel.getText();
 					System.out.println(text);
 					try {
 						PrintWriter writer = new PrintWriter(file);
@@ -274,8 +274,8 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Cannot read file !", "Error !", 0);//0 means show Error Dialog
 				}
-				
-				TP.setText(rs.toString());
+
+				textPanel.setText(rs.toString());
 				changed = false;
 				setTitle("Editor - " + file.getName());
 			}
@@ -296,7 +296,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			return;
 		file = dialog.getSelectedFile();
 		PrintWriter writer = getWriter(file);
-		writer.write(TP.getText());
+		writer.write(textPanel.getText());
 		changed = false;
 		setTitle("Editor - " + file.getName());
 	}
@@ -317,7 +317,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			return;
 		file = dialog.getSelectedFile();
 		try (PrintWriter writer = new PrintWriter(file);){
-			writer.write(TP.getText());
+			writer.write(textPanel.getText());
 			changed = false;
 			setTitle("Save as Text Editor - " + file.getName());
 		} catch (FileNotFoundException e) {
