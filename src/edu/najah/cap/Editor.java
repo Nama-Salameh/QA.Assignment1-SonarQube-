@@ -47,6 +47,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	
 	protected JMenu jmfile;
 
+	private static final String message = "The file has changed. You want to save it?";
 	public Editor() {
 		//Editor the name of our application
 		super("Editor");
@@ -155,7 +156,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			int ans = 0;
 			if (changed) {
 				// 0 means yes and no option, 2 Used for warning messages.
-				ans = JOptionPane.showConfirmDialog(null, "The file has changed. You want to save it?", "Save file", 0, 2);
+				ans = JOptionPane.showConfirmDialog(null, message, "Save file", 0, 2);
 			}
 			//1 value from class method if NO is chosen.
 			if (ans != 1) {
@@ -180,7 +181,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 				//Save file 
 				if (changed) {
 					// 0 means yes and no option, 2 Used for warning messages.
-					int ans = JOptionPane.showConfirmDialog(null, "The file has changed. You want to save it?", "Save file",
+					int ans = JOptionPane.showConfirmDialog(null, message, "Save file",
 							0, 2);
 					//1 value from class method if NO is chosen.
 					if (ans == 1)
@@ -236,7 +237,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 				if (changed){
 					//Save file
 					if (changed) {
-						int ans = JOptionPane.showConfirmDialog(null, "The file has changed. You want to save it?", "Save file",
+						int ans = JOptionPane.showConfirmDialog(null, message, "Save file",
 								0, 2);//0 means yes and no question and 2 mean warning dialog
 						if (ans == 1)// no option 
 							return;
