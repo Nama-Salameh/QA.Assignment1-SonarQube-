@@ -13,3 +13,5 @@
  
 
 ## 4.Input/Output Errors :
+<p>1. error(199,16) Incorrect exception handling: Using generic exceptions prevents calling methods from handling true, system-generated exceptions differently than application-generated errors.so It is lead to major impairments of system Testability.</p>
+
