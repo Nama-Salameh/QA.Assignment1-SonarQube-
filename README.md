@@ -14,4 +14,5 @@
 
 ## 4.Input/Output Errors :
 <p>1. error(199,16) Incorrect exception handling: Using generic exceptions prevents calling methods from handling true, system-generated exceptions differently than application-generated errors.so It is lead to major impairments of system Testability.</p>
+<p>2. error(42) copy,posts,cut,move should be static final : Public class variable fields do not respect the encapsulation principle and has main disadvantage ,Member values are subject to change from anywhere in the code and may not meet the programmer’s assumptions. so It is lead to major impairments of system Reliability.
 
