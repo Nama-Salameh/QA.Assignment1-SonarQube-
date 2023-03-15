@@ -9,7 +9,7 @@
 
 ## 3.Control-Flow Errors :
  <p>1. error(181,8) && error(283,9) Conditional expressions are always tru : 
- Conditional expressions which are always true or false can lead to dead code. it affect the software Reliability.  .</p>
+ Conditional expressions which are always true or false can lead to dead code.It is lead to major impairments of system dependability during component interactions .</p>
  
 
 ## 4.Input/Output Errors :
