@@ -154,16 +154,16 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			loadFile();
 		}
 	}
-	private void ConfirmSaveFile(int ans){
+	private int confirmSaveFile(){
 			// 0 means yes and no option, 2 Used for warning messages.
-			ans = JOptionPane.showConfirmDialog(null, MESSAGE, "Save file", 0, 2);
+			return JOptionPane.showConfirmDialog(null, MESSAGE, "Save file", 0, 2);
 	}
 	private void saveFileChoice(String action){
 		if (action.equals(actions[1])) {
 			//Save file
-			int ans = 0;
+			int ans =0;
 			if (changed) {
-				ConfirmSaveFile(ans);
+				ans = confirmSaveFile();
 			}
 			//1 value from class method if NO is chosen.
 			if (ans != 1) {
@@ -177,9 +177,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	}
 
 	private boolean emptyFile(){
-		if(file == null)
-			return true;
-		else return false;
+		return file == null;
 	}
 	private void savingExistingFile() {
 		String text = textPanel.getText();
@@ -200,8 +198,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			if (changed) {
 				//Save file
 				if (changed) {
-					int ans =0 ;
-					ConfirmSaveFile(ans);
+					int ans = confirmSaveFile();
 					//1 value from class method if NO is chosen.
 					if (ans == 1)
 						return;
@@ -284,8 +281,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 				if (changed){
 					//Save file
 					if (changed) {
-						int ans=0;
-						ConfirmSaveFile(ans);
+						int ans = confirmSaveFile();
 						if (ans == 1)// no option 
 							return;
 					} else {
