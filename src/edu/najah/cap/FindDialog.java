@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class FindDialog extends JDialog implements ActionListener, KeyListener {
 
-	Editor parent;
+	Editor parentEditor;
 	JLabel label;
 	JTextField textField;
 	JCheckBox caseSensitive;
@@ -28,14 +28,14 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 	boolean finishedFinding = true;
 	private transient Matcher matcher;
 
-	public FindDialog(Editor parent, boolean modal) {
-		super(parent, modal);
-		this.parent = parent;
+	public FindDialog(Editor parentEditor, boolean modal) {
+		super(parentEditor, modal);
+		this.parentEditor = parentEditor;
 		getContentPane().addKeyListener(this);
 		getContentPane().setFocusable(true);
 		initComponents();
 		setTitle("Find");
-		setLocationRelativeTo(parent);
+		setLocationRelativeTo(parentEditor);
 		pack();
 	}
 
@@ -76,8 +76,8 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 			if (matcher.find()) {
 				int selectionStart = matcher.start();
 				int selectionEnd = matcher.end();
-				parent.getTextPanel().moveCaretPosition(matcher.start());
-				parent.getTextPanel().select(selectionStart, selectionEnd);
+				parentEditor.getTextPanel().moveCaretPosition(matcher.start());
+				parentEditor.getTextPanel().select(selectionStart, selectionEnd);
 			} else {
 				finishedFinding = true;
 				JOptionPane.showMessageDialog(this, "You have reached the end of the file", "End of file",
@@ -85,7 +85,7 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 				// closeDialog();
 			}
 		} else {
-			matcher = Pattern.compile(pattern).matcher(parent.getTextPanel().getText());
+			matcher = Pattern.compile(pattern).matcher(parentEditor.getTextPanel().getText());
 			finishedFinding = false;
 			find(pattern);
 		}
