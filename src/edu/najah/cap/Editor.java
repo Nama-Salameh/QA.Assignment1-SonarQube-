@@ -144,84 +144,131 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		edit.add(sall);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
+	private void exitChoice(String action){
 		if (action.equals(actions[4])) {
 			System.exit(0);
-		} else if (action.equals(actions[0])) {
+		}
+	}
+	private void openChoice(String action){
+		if (action.equals(actions[0])) {
 			loadFile();
-		} else if (action.equals(actions[1])) {
+		}
+	}
+	private void ConfirmSaveFile(int ans){
+			// 0 means yes and no option, 2 Used for warning messages.
+			ans = JOptionPane.showConfirmDialog(null, MESSAGE, "Save file", 0, 2);
+	}
+	private void saveFileChoice(String action){
+		if (action.equals(actions[1])) {
 			//Save file
 			int ans = 0;
 			if (changed) {
-				// 0 means yes and no option, 2 Used for warning messages.
-				ans = JOptionPane.showConfirmDialog(null, MESSAGE, "Save file", 0, 2);
+				ConfirmSaveFile(ans);
 			}
 			//1 value from class method if NO is chosen.
 			if (ans != 1) {
-				if (file == null) {
+				if (emptyFile()) {
 					saveAs(actions[1]);
 				} else {
-					String text = textPanel.getText();
-					System.out.println(text);
-					try (PrintWriter writer = new PrintWriter(file);){
-						if (!file.canWrite())
-							throw new EditorSaveException("Cannot write file!");
-						writer.write(text);
-						changed = false;
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
+					savingExistingFile();
 				}
 			}
-		} else if (action.equals(actions[2])) {
-			//New file 
+		}
+	}
+
+	private boolean emptyFile(){
+		if(file == null)
+			return true;
+		else return false;
+	}
+	private void savingExistingFile() {
+		String text = textPanel.getText();
+		System.out.println(text);
+		try (PrintWriter writer = new PrintWriter(file);){
+			if (!file.canWrite())
+				throw new EditorSaveException("Cannot write file!");
+			writer.write(text);
+			changed = false;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void newFileChoice(String action){
+		if (action.equals(actions[2])) {
+			//New file
 			if (changed) {
-				//Save file 
+				//Save file
 				if (changed) {
-					// 0 means yes and no option, 2 Used for warning messages.
-					int ans = JOptionPane.showConfirmDialog(null, MESSAGE, "Save file",
-							0, 2);
+					int ans =0 ;
+					ConfirmSaveFile(ans);
 					//1 value from class method if NO is chosen.
 					if (ans == 1)
 						return;
-				} else {
+				} else {                                                                   //unreachable???
 					return;
 				}
-				if (file == null) {
+				if (emptyFile()) {
 					saveAs(actions[1]);
 					return;
 				}
-				String text = textPanel.getText();
-				System.out.println(text);
-				try (PrintWriter writer = new PrintWriter(file);){
-					if (!file.canWrite())
-						throw new Exception("Cannot write file!");
-					writer.write(text);
-					changed = false;
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				savingExistingFile();
 			}
 			file = null;
 			textPanel.setText("");
 			changed = false;
 			setTitle("Editor");
-		} else if (action.equals(actions[5])) {
-			saveAs(actions[5]);
-		} else if (action.equals("Select All")) {
-			textPanel.selectAll();
-		} else if (action.equals("Copy")) {
-			textPanel.copy();
-		} else if (action.equals("Cut")) {
-			textPanel.cut();
-		} else if (action.equals("Paste")) {
-			textPanel.paste();
-		} else if (action.equals("Find")) {
+		}
+	}
+	private void findChoice(String action) {
+		if (action.equals("Find")) {
 			FindDialog find = new FindDialog(this, true);
 			find.showDialog();
 		}
+	}
+
+	private void pasteChoice(String action) {
+		if (action.equals("Paste")) {
+			textPanel.paste();
+		}
+	}
+
+	private void cutChoice(String action) {
+		if (action.equals("Cut")) {
+			textPanel.cut();
+		}
+	}
+
+	private void copyChoice(String action) {
+		if (action.equals("Copy")) {
+			textPanel.copy();
+		}
+	}
+
+	private void selectAllChoice(String action) {
+		if (action.equals("Select All")) {
+			textPanel.selectAll();
+		}
+	}
+
+	private void saveAsChoice(String action) {
+		if (action.equals(actions[5])) {
+			saveAs(actions[5]);
+		}
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String action = e.getActionCommand();
+		exitChoice(action);
+		openChoice(action);
+		saveFileChoice(action);
+		newFileChoice(action);
+		saveAsChoice(action);
+		selectAllChoice(action);
+		copyChoice(action);
+		cutChoice(action);
+		pasteChoice(action);
+		findChoice(action);
 	}
 
 
@@ -237,8 +284,8 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 				if (changed){
 					//Save file
 					if (changed) {
-						int ans = JOptionPane.showConfirmDialog(null, MESSAGE, "Save file",
-								0, 2);//0 means yes and no question and 2 mean warning dialog
+						int ans=0;
+						ConfirmSaveFile(ans);
 						if (ans == 1)// no option 
 							return;
 					} else {
