@@ -272,9 +272,9 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		findChoice(action);
 	}
 
-
+	private static final String USER_HOME= "user.home";
 	private void loadFile() {
-		JFileChooser dialog = new JFileChooser(System.getProperty("user.home"));
+		JFileChooser dialog = new JFileChooser(System.getProperty(USER_HOME));
 		dialog.setMultiSelectionEnabled(false);
 		try {
 			int result = dialog.showOpenDialog(this);
@@ -336,7 +336,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 
 	private void saveAs(String dialogTitle) {
 		dialogTitle = dialogTitle.toUpperCase();
-		JFileChooser dialog = new JFileChooser(System.getProperty("user.home"));
+		JFileChooser dialog = new JFileChooser(System.getProperty(USER_HOME));
 		dialog.setDialogTitle(dialogTitle);
 		int result = dialog.showSaveDialog(this);
 		if (result != 0)//0 value if approve (yes, ok) is chosen.
@@ -357,7 +357,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	}
 
 	private void saveAsText(String dialogTitle) throws EditorSaveAsException {
-		JFileChooser dialog = new JFileChooser(System.getProperty("user.home"));
+		JFileChooser dialog = new JFileChooser(System.getProperty(USER_HOME));
 		dialog.setDialogTitle(dialogTitle);
 		int result = dialog.showSaveDialog(this);
 		if (result != 0)//0 value if approve (yes, ok) is chosen.
