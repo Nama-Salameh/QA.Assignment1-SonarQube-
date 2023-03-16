@@ -298,8 +298,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 					}
 					String text = textPanel.getText();
 					System.out.println(text);
-					try {
-						PrintWriter writer = new PrintWriter(file);
+					try (PrintWriter writer = new PrintWriter(file);){
 						if (!file.canWrite())
 							throw new Exception("Cannot write file!");
 						writer.write(text);
