@@ -278,53 +278,8 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		dialog.setMultiSelectionEnabled(false);
 		try {
 			int result = dialog.showOpenDialog(this);
-			
-			if (result == 1)//1 value if cancel is chosen.
-				return;
-			if (result == 0) {// value if approve (yes, ok) is chosen.
-				if (changed){
-					//Save file
-					if (changed) {
-						int ans = confirmSaveFile();
-						if (ans == 1)// no option 
-							return;
-					} else {
-						System.out.println("No change");
-						return;
-					}
-					if (file == null) {
-						saveAs(actions[1]);
-						return;
-					}
-					String text = textPanel.getText();
-					System.out.println(text);
-					try (PrintWriter writer = new PrintWriter(file);){
-						if (!file.canWrite())
-							throw new Exception("Cannot write file!");
-						writer.write(text);
-						changed = false;
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				file = dialog.getSelectedFile();
-				//Read file 
-				StringBuilder rs = new StringBuilder();
-				try (	FileReader fr = new FileReader(file);		
-						BufferedReader reader = new BufferedReader(fr);) {
-					String line;
-					while ((line = reader.readLine()) != null) {
-						rs.append(line + "\n");
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Cannot read file !", "Error !", 0);//0 means show Error Dialog
-				}
-
-				textPanel.setText(rs.toString());
-				changed = false;
-				setTitle("Editor - " + file.getName());
-			}
+			cancelChoice(result);
+			approveChoice(dialog,result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			//0 means show Error Dialog
@@ -332,7 +287,53 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		}
 	}
 
-	
+	private void approveChoice(JFileChooser dialog,int result) {
+		if (result == 0) {// value if approve (yes, ok) is chosen.
+			if (changed){
+				//Save file
+				if (changed) {
+					int ans = confirmSaveFile();
+					if (ans == 1)// no option
+						return;
+				} else {
+					System.out.println("No change");
+					return;
+				}
+				if (emptyFile()) {
+					saveAs(actions[1]);
+					return;
+				}
+				savingExistingFile();
+			}
+			file = dialog.getSelectedFile();
+			readFile();
+
+			changed = false;
+			setTitle("Editor - " + file.getName());
+		}
+	}
+
+	private void readFile() {
+		StringBuilder rs = new StringBuilder();
+		try (FileReader fr = new FileReader(file);
+			 BufferedReader reader = new BufferedReader(fr);) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				rs.append(line + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Cannot read file !", "Error !", 0);//0 means show Error Dialog
+		}
+		textPanel.setText(rs.toString());
+	}
+
+	private void cancelChoice(int result) {
+		if (result == 1)
+			return;
+	}
+
+
 	private void saveAs(String dialogTitle) {
 		dialogTitle = dialogTitle.toUpperCase();
 		JFileChooser dialog = new JFileChooser(System.getProperty("user.home"));
