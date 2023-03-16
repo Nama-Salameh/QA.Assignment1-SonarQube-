@@ -26,7 +26,7 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 	JButton find;
 	JButton close;
 	boolean finishedFinding = true;
-	Matcher matcher;
+	private transient Matcher matcher;
 
 	public FindDialog(Editor parent, boolean modal) {
 		super(parent, modal);
