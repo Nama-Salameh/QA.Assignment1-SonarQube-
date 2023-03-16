@@ -3,11 +3,13 @@
 ---------
 # categories issues:
 
-## 1.Product operation:<p> Requirements that directly affect the daily operation of the software :
+## 1.Product operation:
+<p> Requirements that directly affect the daily operation of the software :
 Correctness, reliability, efficiency, integrity, and usability</p>
 
 
-## 2.Product revision: <p>Requirements that affect the complete range of software maintenance activities
+## 2.Product revision:
+<p>Requirements that affect the complete range of software maintenance activities
  Maintainability;  flexibility;  testability .</P>
  <p>1. error(181,8) && error(283,9) Conditional expressions are always tru : 
  Conditional expressions which are always true or false can lead to dead code.It is lead to major impairments of system mantinability .</p>
@@ -19,8 +21,9 @@ Correctness, reliability, efficiency, integrity, and usability</p>
  <p>5. error(228,60) declare constant inested of String duplicated: Duplicated string literals make the process of refactoring error-prone, since you must be sure to update all occurrences.so It is lead to reduces system flexibility.</P>
  
  
-## 3.Product transition :<p> adaptation of software to other environments and its interaction with other software systems
-Portability;  Reusability;  Interoperability</p>
+## 3.Product transition :
+<p> adaptation of software to other environments and its interaction with other software systems
+Portability;  Reusability;  Interoperability .</p>
 
 
 ## false Negative issues:
