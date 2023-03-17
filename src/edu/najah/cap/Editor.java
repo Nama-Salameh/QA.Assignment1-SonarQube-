@@ -272,10 +272,10 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	}
 
 	private void fileWriter(File file, String text) {
-		try { //this one
+		try {
 			PrintWriter writer = new PrintWriter(file);
 			if (!file.canWrite())
-				throw new Exception("Cannot write file!"); //this one
+				throw new Exception("Cannot write file!");
 			writer.write(text);
 			changed = false;
 		} catch (Exception e) {
