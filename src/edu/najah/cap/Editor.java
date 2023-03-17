@@ -208,14 +208,10 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			//New file
 			if (changed) {
 				//Save file
-				if (changed) {
-					int ans = confirmSaveFile();
-					//1 value from class method if NO is chosen.
-					if (ans == 1)
-						return;
-				} else {                                                                   //unreachable???
+				int ans = confirmSaveFile();
+				//1 value from class method if NO is chosen.
+				if (ans == 1)
 					return;
-				}
 				if (emptyFile()) {
 					saveAs(actions[1]);
 					return;
@@ -287,7 +283,8 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		dialog.setMultiSelectionEnabled(false);
 		try {
 			int result = dialog.showOpenDialog(this);
-			cancelChoice(result);
+			if (result == 1)
+				return;
 			approveChoice(dialog,result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -300,14 +297,9 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		if (result == 0) {// value if approve (yes, ok) is chosen.
 			if (changed){
 				//Save file
-				if (changed) {
-					int ans = confirmSaveFile();
-					if (ans == 1)// no option
-						return;
-				} else {
-					System.out.println("No change");
+				int ans = confirmSaveFile();
+				if (ans == 1)// no option
 					return;
-				}
 				if (emptyFile()) {
 					saveAs(actions[1]);
 					return;
@@ -337,10 +329,6 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		textPanel.setText(rs.toString());
 	}
 
-private void cancelChoice(int result) {
-		if (result == 1)
-			return;
-	}
 	private void fileWriter(File file, String text) {
 		try (PrintWriter writer = new PrintWriter(file);){ //this one
 			if (!file.canWrite())
