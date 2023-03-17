@@ -26,6 +26,7 @@ Correctness, reliability, efficiency, integrity, and usability</p>
  <p>8. error(148,13) "actionPerformed" and "loadFile" are complexity functions (Cognitive Complexity of methods should not be too high) : Cognitive Complexity is a measure of how hard the control flow of a method is to understand. So these functions are difficult to maintains.</p>
 <p>9. error(40,20) "TP" variable must be in a clear name, the ambiguous name effect on maintainability of the code. </p>
 <p>10. error(249,60) "user.home" is duplicated string : Duplicated string literals make the process of refactoring error-prone, since you must be sure to update all occurrences. Duplicates effect on the code refactor (maintainability) </p>
+<p>11. EdetorException error(5,13) :Inheritance tree of classes should not be too deep ,It is lead to reduces system maintainability and flexibility.
 
 ## 3.Product transition :
 <p> adaptation of software to other environments and its interaction with other software systems
