@@ -1,7 +1,6 @@
 package edu.najah.cap;
 
 import edu.najah.cap.ex.CanNotWriteFileException;
-import edu.najah.cap.ex.EditorSaveAsException;
 import edu.najah.cap.ex.EditorSaveException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -12,12 +11,9 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -44,13 +40,11 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		return textPanel;
 	}
 
-	private JEditorPane textPanel;
-	private JMenuBar menu;
+	private final JEditorPane textPanel;
+	private final JMenuBar menu;
 	public static final JMenuItem copy=new JMenuItem("Copy");
 	public static final JMenuItem paste=new JMenuItem("Paste");
 	public static final JMenuItem cut= new JMenuItem("Cut");
-	public static final JMenuItem move=new JMenuItem("move");
-
 	private boolean changed = false;
 
 	public boolean isChanged() {
@@ -63,7 +57,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 
 	protected File file;
 	
-	private String[] actions = {"Open","Save","New","Edit","Quit", "Save as..."};
+	private final String[] actions = {"Open","Save","New","Edit","Quit", "Save as..."};
 	
 	protected JMenu jmfile;
 
@@ -193,7 +187,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	private void savingExistingFile() {
 		String text = textPanel.getText();
 		System.out.println(text);
-		try (PrintWriter writer = new PrintWriter(file);){
+		try (PrintWriter writer = new PrintWriter(file)){
 			if (!file.canWrite())
 				throw new EditorSaveException("Cannot write file!");
 			writer.write(text);
@@ -317,7 +311,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	private void readFile() {
 		StringBuilder rs = new StringBuilder();
 		try (FileReader fr = new FileReader(file);
-			 BufferedReader reader = new BufferedReader(fr);) {
+			 BufferedReader reader = new BufferedReader(fr)) {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				rs.append(line + "\n");
