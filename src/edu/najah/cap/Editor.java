@@ -1,6 +1,5 @@
 package edu.najah.cap;
 
-import edu.najah.cap.ex.CanNotWriteFileException;
 import edu.najah.cap.ex.EditorSaveException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -19,7 +18,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-@SuppressWarnings("serial")
 public class Editor extends JFrame implements ActionListener, DocumentListener {
 	private static final Logger logger = LogManager.getLogger(Editor.class);
 
@@ -38,14 +36,6 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	public static final JMenuItem paste=new JMenuItem("Paste");
 	public static final JMenuItem cut= new JMenuItem("Cut");
 	private boolean changed = false;
-
-	public boolean isChanged() {
-		return changed;
-	}
-
-	public void setChanged(boolean changed) {
-		this.changed = changed;
-	}
 
 	protected File file;
 	
