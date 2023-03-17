@@ -6,7 +6,8 @@
 ## 1.Product operation:
 <p> Requirements that directly affect the daily operation of the software :
 Correctness, reliability, efficiency, integrity, and usability</p>
- <p> error(276,27) printWriter must be closed (Resources should be closed): Failure to properly close resources will result in a resource leak which could bring first the application and then perhaps the box the application is on to their knees. So must close resources to prevent memory leakage, affects to the data and the availability of the system . </p>
+ <p>1. error(276,27) printWriter must be closed (Resources should be closed): Failure to properly close resources will result in a resource leak which could bring first the application and then perhaps the box the application is on to their knees. So must close resources to prevent memory leakage, affects to the data and the availability of the system . </p>
+<p>2. error(40,20) textPanel variable must be private (Class variable fields should not have public accessibility): Public class variable fields do not respect the encapsulation principle and the values can change from anywhere in the code. Public variables effect on the code Integrity. </p>
 
 
 ## 2.Product revision:
