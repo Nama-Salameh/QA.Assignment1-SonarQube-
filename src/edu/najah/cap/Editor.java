@@ -390,22 +390,6 @@ private void cancelChoice(int result) {
 		}
 	}
 
-	private void saveAsText(String dialogTitle) throws EditorSaveAsException {
-		JFileChooser dialog = new JFileChooser(System.getProperty(USER_HOME));
-		dialog.setDialogTitle(dialogTitle);
-		int result = dialog.showSaveDialog(this);
-		if (result != 0)//0 value if approve (yes, ok) is chosen.
-			return;
-		file = dialog.getSelectedFile();
-		try (PrintWriter writer = new PrintWriter(file);){
-			writer.write(textPanel.getText());
-			changed = false;
-			setTitle("Save as Text Editor - " + file.getName());
-		} catch (FileNotFoundException e) {
-			throw new EditorSaveAsException(e.getMessage());
-		}
-	}
-
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 		changed = true;
