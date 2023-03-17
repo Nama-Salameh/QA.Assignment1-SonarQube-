@@ -179,7 +179,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	}
 	private void savingExistingFile() {
 		String text = textPanel.getText();
-		System.out.println(text);
+		logger.info(text);
 		try (PrintWriter writer = new PrintWriter(file)){
 			if (!file.canWrite())
 				throw new EditorSaveException("Cannot write file!");
