@@ -8,6 +8,7 @@
 Correctness, reliability, efficiency, integrity, and usability</p>
  <p>1. error(276,27) printWriter must be closed (Resources should be closed): Failure to properly close resources will result in a resource leak which could bring first the application and then perhaps the box the application is on to their knees. So must close resources to prevent memory leakage, affects to the data and the availability of the system . </p>
 <p>2. error(40,20) textPanel variable must be private (Class variable fields should not have public accessibility): Public class variable fields do not respect the encapsulation principle and the values can change from anywhere in the code. Public variables effect on the code Integrity. </p>
+<p>3. error(22,8) Editor parent variable name in class FindDialog (Child class fields should not shadow parent class fields) :Having a variable with the same name in two unrelated classes is fine, but do the same thing within a class hierarchy, and you’ll get confusion at best, chaos at worst. Effect on code Integrity.  </p>
 
 
 ## 2.Product revision:
@@ -23,7 +24,7 @@ Correctness, reliability, efficiency, integrity, and usability</p>
  <p>7. error(228,60) declare constant inested of String duplicated: Duplicated string literals make the process of refactoring error-prone, since you must be sure to update all occurrences.so It is lead to reduces system flexibility.</P>
  <p>8. error(148,13) "actionPerformed" and "loadFile" are complexity functions (Cognitive Complexity of methods should not be too high) : Cognitive Complexity is a measure of how hard the control flow of a method is to understand. So these functions are difficult to maintains.</p>
 <p>9. error(40,20) "TP" variable must be in a clear name, the ambiguous name effect on maintainability of the code. </p>
-<p>10. error "user.home" is duplicated string : Duplicated string literals make the process of refactoring error-prone, since you must be sure to update all occurrences. Duplicates effect on the code refactor (maintainability) </p>
+<p>10. error(249,60) "user.home" is duplicated string : Duplicated string literals make the process of refactoring error-prone, since you must be sure to update all occurrences. Duplicates effect on the code refactor (maintainability) </p>
 
 ## 3.Product transition :
 <p> adaptation of software to other environments and its interaction with other software systems
