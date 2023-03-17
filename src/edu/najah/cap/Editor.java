@@ -316,31 +316,6 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		textPanel.setText(rs.toString());
 	}
 
-	private void fileWriter(File file, String text) {
-		try (PrintWriter writer = new PrintWriter(file)){ //this one
-			if (!file.canWrite())
-				throw new CanNotWriteFileException("Cannot write file!"); //this one
-			writer.write(text);
-			changed = false;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void readFileToBuilder(StringBuilder rs, File file) {
-		try (
-				FileReader fr = new FileReader(file);
-				BufferedReader reader = new BufferedReader(fr)) {
-			String line;
-			while ((line = reader.readLine()) != null) {
-				rs.append(line).append("\n");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Cannot read file !", String.valueOf(JOptionPane.ERROR_MESSAGE), 0);//0 means show Error Dialog
-		}
-	}
-
 	private void saveAs(String dialogTitle) {
 		dialogTitle = dialogTitle.toUpperCase();
 		JFileChooser dialog = new JFileChooser(System.getProperty(USER_HOME));
