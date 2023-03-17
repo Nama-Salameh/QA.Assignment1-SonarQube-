@@ -342,10 +342,9 @@ private void cancelChoice(int result) {
 			return;
 	}
 	private void fileWriter(File file, String text) {
-		try { //this one
-			PrintWriter writer = new PrintWriter(file);
+		try (PrintWriter writer = new PrintWriter(file);){ //this one
 			if (!file.canWrite())
-				throw new Exception("Cannot write file!"); //this one
+				throw new CanNotWriteFileException("Cannot write file!"); //this one
 			writer.write(text);
 			changed = false;
 		} catch (Exception e) {
