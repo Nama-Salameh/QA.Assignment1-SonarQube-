@@ -32,6 +32,8 @@ Correctness, reliability, efficiency, integrity, and usability</p>
 <p> adaptation of software to other environments and its interaction with other software systems
 Portability;  Reusability;  Interoperability .</p>
 
+## No issues in sounarlint :
+![bandicam 2023-03-18 00-14-35-481](https://user-images.githubusercontent.com/113710703/226062763-6b150116-8e02-4afa-9057-0064dd663107.jpg)
 
 ## false Negative issues:
  <p>1. in FindDialog class (46) : setLayout(new GridLayout(3, 1)); must 3 and 1 be replaced by magic numbers , It gives the number meaning so anyone can read it and know what the number is used for.</p>
