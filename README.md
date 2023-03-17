@@ -41,3 +41,8 @@ Portability;  Reusability;  Interoperability .</p>
  <P>3. in Editor class : jmfile variable must be in a clear and meaningful name (jMFile) </P> 
  <p>4.  in Editor class : saveas variable must follow java conventions (saveAs) </p>
 
+
+## false Positive issues
+<P>1. in Editor class : in "loadFile" and "actionPerformed" methods the condition if(changed) duplicated 2 times inside each other, and the internal if having else sentence (this unreachable code) and didn't discover it. </P>
+
+
