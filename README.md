@@ -7,7 +7,7 @@
 <p> Requirements that directly affect the daily operation of the software :
 Correctness, reliability, efficiency, integrity, and usability</p>
  <p>1. error(276,27) printWriter must be closed (Resources should be closed): Failure to properly close resources will result in a resource leak which could bring first the application and then perhaps the box the application is on to their knees. So must close resources to prevent memory leakage, affects to the data and the availability of the system . </p>
-<p>2. error(40,20) textPanel variable must be private (Class variable fields should not have public accessibility): Public class variable fields do not respect the encapsulation principle and the values can change from anywhere in the code. Public variables effect on the code Integrity. </p>
+<p>2. error(40,20) textPanel and menu variables must be private (Class variable fields should not have public accessibility): Public class variable fields do not respect the encapsulation principle and the values can change from anywhere in the code. Public variables effect on the code Integrity. </p>
 <p>3. error(22,8) Editor parent variable name in class FindDialog (Child class fields should not shadow parent class fields) :Having a variable with the same name in two unrelated classes is fine, but do the same thing within a class hierarchy, and you’ll get confusion at best, chaos at worst. Effect on code Integrity.  </p>
 <p>4. error(28,9) Matcher variable must be a transient (Fields in a "Serializable" class should either be transient or serializable): non-serializable data members could cause program crashes, and open the door to attackers. This effects on availability of the system. </p>
 
