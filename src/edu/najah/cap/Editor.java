@@ -39,11 +39,11 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 
 	protected File file;
 	
-	private final String[] actions = {"Open","Save","New","Edit","Quit", "Save as..."};
+	private static final String[] actions = {"Open","Save","New","Edit","Quit", "Save as..."};
 	
 	protected JMenu jMenuFile;
 
-	private static final String MESSAGE = "The file has changed. You want to save it?";
+	private static final String FILE_CHANGED_MESSAGE = "The file has changed. You want to save it?";
 	public Editor() {
 		//Editor the name of our application
 		super("Editor");
@@ -144,7 +144,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	private static final String SAVE_FILE = "Save file";
 	private int confirmSaveFile(){
 			// 0 means yes and no option, 2 Used for warning messages.
-			return JOptionPane.showConfirmDialog(null, MESSAGE, SAVE_FILE, 0, 2);
+			return JOptionPane.showConfirmDialog(null, FILE_CHANGED_MESSAGE, SAVE_FILE, 0, 2);
 	}
 	private void saveFileChoice(String action){
 		if (action.equals(actions[1])) {
@@ -164,6 +164,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		}
 	}
 
+	private static final String CANNOT_WRITE_FILE_MESSAGE = "Cannot write file!";
 	private boolean emptyFile(){
 		return file == null;
 	}
@@ -172,7 +173,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		logger.info(text);
 		try (PrintWriter writer = new PrintWriter(file)){
 			if (!file.canWrite())
-				throw new EditorSaveException("Cannot write file!");
+				throw new EditorSaveException(CANNOT_WRITE_FILE_MESSAGE);
 			writer.write(text);
 			changed = false;
 		} catch (Exception ex) {
@@ -291,6 +292,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		}
 	}
 
+	private static final String CONNOT_READ_FILE_MESSAGE = "Cannot read file !";
 	private void readFile() {
 		StringBuilder rs = new StringBuilder();
 		try (FileReader fr = new FileReader(file);
@@ -301,7 +303,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Cannot read file !", String.valueOf(JOptionPane.ERROR_MESSAGE), 0);//0 means show Error Dialog
+			JOptionPane.showMessageDialog(null, CONNOT_READ_FILE_MESSAGE , String.valueOf(JOptionPane.ERROR_MESSAGE), 0);//0 means show Error Dialog
 		}
 		textPanel.setText(rs.toString());
 	}
