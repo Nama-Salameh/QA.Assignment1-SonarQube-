@@ -14,6 +14,7 @@ Correctness, reliability, efficiency, integrity, and usability</p>
 <p>6. error(92, 96) The use of deprecated function "SHIFT_MASK":Once deprecated, classes, and interfaces, and their members should be avoided, rather than used, inherited or extended. Deprecation is a warning that the class or interface has been superseded, and will eventually be removed. The deprecation period allows you to make a smooth transition away from the aging, soon-to-be-retired technology. Effect code Reliability</p>
 <p>7. error (115, 13) & error (127, 13) Handling empty method body: There are several reasons for a method not to have a method body: It is an unintentional omission, and should be fixed to prevent an unexpected behavior in production. It is not yet, or never will be, supported. In this case an UnsupportedOperationException should be thrown.The method is an intentionally-blank override. In this case a nested comment should explain the reason for the blank override. Effects Efficiency</p>
 
+
 ## 2.Product revision:
 <p>Requirements that affect the complete range of software maintenance activities
  Maintainability;  flexibility;  testability .</P>
