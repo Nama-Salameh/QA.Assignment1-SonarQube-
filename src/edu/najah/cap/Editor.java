@@ -1,10 +1,11 @@
 package edu.najah.cap;
 
-import edu.najah.cap.ex.EditorException;
+import edu.najah.cap.ex.CanNotWriteFileException;
 import edu.najah.cap.ex.EditorSaveAsException;
 import edu.najah.cap.ex.EditorSaveException;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -15,9 +16,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
+
 
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -33,6 +36,7 @@ import javax.swing.event.DocumentListener;
 
 @SuppressWarnings("serial")
 public class Editor extends JFrame implements ActionListener, DocumentListener {
+	private static final Logger logger = LogManager.getLogger(Editor.class);
 
 	public static  void main(String[] args) {
 		new Editor();
@@ -40,6 +44,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 
 	public JEditorPane TP;//Text Panel
 	public JMenuBar menu;//Menu
+
 	public JMenuItem copy, paste, cut, move;
 	private boolean changed = false;
 
@@ -50,6 +55,13 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	public void setChanged(boolean changed) {
 		this.changed = changed;
 	}
+
+
+	public static final JMenuItem copy=new JMenuItem("Copy");
+	public static final JMenuItem paste=new JMenuItem("Paste");
+	public static final JMenuItem cut= new JMenuItem("Cut");
+	public static final JMenuItem move=new JMenuItem("move");
+	public  boolean changed = false;
 
 	protected File file;
 	
@@ -114,31 +126,22 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		menu.add(edit);
 		edit.setMnemonic('E');
 		// cut
-		cut = new JMenuItem("Cut");
 		cut.addActionListener(this);
 		cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
 		cut.setMnemonic('T');
 		edit.add(cut);
 		// copy
-		copy = new JMenuItem("Copy");
+
 		copy.addActionListener(this);
 		copy.setMnemonic('C');
 		copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
 		edit.add(copy);
 		// paste
-		paste = new JMenuItem("Paste");
 		paste.setMnemonic('P');
 		paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
 		edit.add(paste);
 		paste.addActionListener(this);
-		//move 
-		/*
-		move = new JMenuItem("Move");
-		move.setMnemonic('M');
-		move.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
-		edit.add(move);
-		move.addActionListener(this);
-		*/
+		//move
 		// find
 		JMenuItem find = new JMenuItem("Find");
 		find.setMnemonic('F');
@@ -173,7 +176,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 					saveAs(actions[1]);
 				} else {
 					String text = TP.getText();
-					System.out.println(text);
+					logger.info(text);
 					try (PrintWriter writer = new PrintWriter(file);){
 						if (!file.canWrite())
 							throw new EditorSaveException("Cannot write file!");
@@ -185,8 +188,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 				}
 			}
 		} else if (action.equals(actions[2])) {
-			//New file 
-			if (changed) {
+			//New file
 				//Save file 
 				if (changed) {
 					// 0 means yes and no option, 2 Used for warning messages.
@@ -203,16 +205,16 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 					return;
 				}
 				String text = TP.getText();
-				System.out.println(text);
+				logger.info(text);
 				try (PrintWriter writer = new PrintWriter(file);){
 					if (!file.canWrite())
-						throw new Exception("Cannot write file!");
+						throw new CanNotWriteFileException("Cannot write file!");
 					writer.write(text);
 					changed = false;
-				} catch (Exception ex) {
+				} catch (Exception | CanNotWriteFileException ex) {
 					ex.printStackTrace();
 				}
-			}
+
 			file = null;
 			TP.setText("");
 			changed = false;
@@ -233,9 +235,9 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		}
 	}
 
-
+	private static final String USER_HOME="user.home";
 	private void loadFile() {
-		JFileChooser dialog = new JFileChooser(System.getProperty("user.home"));
+		JFileChooser dialog = new JFileChooser(System.getProperty(USER_HOME));
 		dialog.setMultiSelectionEnabled(false);
 		try {
 			int result = dialog.showOpenDialog(this);
@@ -243,7 +245,6 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			if (result == 1)//1 value if cancel is chosen.
 				return;
 			if (result == 0) {// value if approve (yes, ok) is chosen.
-				if (changed){
 					//Save file
 					if (changed) {
 						int ans = JOptionPane.showConfirmDialog(null, "The file has changed. You want to save it?", "Save file",
@@ -259,9 +260,23 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 						return;
 					}
 					String text = TP.getText();
+
 					Logger.getLogger(text);
 					fileWriter(file, text);
 				}
+
+					System.out.println(text);
+					try {
+						PrintWriter writer = new PrintWriter(file);
+						if (!file.canWrite())
+							throw new Exception("Cannot write file!");
+						writer.write(text);
+						changed = false;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+
 				file = dialog.getSelectedFile();
 				//Read file
 				StringBuilder rs = new StringBuilder();
@@ -307,7 +322,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 
 	private void saveAs(String dialogTitle) {
 		dialogTitle = dialogTitle.toUpperCase();
-		JFileChooser dialog = new JFileChooser(System.getProperty("user.home"));
+		JFileChooser dialog = new JFileChooser(System.getProperty(USER_HOME));
 		dialog.setDialogTitle(dialogTitle);
 		int result = dialog.showSaveDialog(this);
 		if (result != 0)//0 value if approve (yes, ok) is chosen.
@@ -328,6 +343,24 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			return null;
 		}
 	}
+
+
+	private void saveAsText(String dialogTitle) throws EditorSaveAsException {
+		JFileChooser dialog = new JFileChooser(System.getProperty(USER_HOME));
+		dialog.setDialogTitle(dialogTitle);
+		int result = dialog.showSaveDialog(this);
+		if (result != 0)//0 value if approve (yes, ok) is chosen.
+			return;
+		file = dialog.getSelectedFile();
+		try (PrintWriter writer = new PrintWriter(file);){
+			writer.write(TP.getText());
+			changed = false;
+			setTitle("Save as Text Editor - " + file.getName());
+		} catch (FileNotFoundException e) {
+			throw new EditorSaveAsException(e.getMessage());
+		}
+	}
+
 
 	@Override
 	public void insertUpdate(DocumentEvent e) {

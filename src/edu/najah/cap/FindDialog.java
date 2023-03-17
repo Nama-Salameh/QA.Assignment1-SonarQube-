@@ -81,7 +81,6 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 				finishedFinding = true;
 				JOptionPane.showMessageDialog(this, "You have reached the end of the file", "End of file",
 						JOptionPane.INFORMATION_MESSAGE);
-				// closeDialog();
 			}
 		} else {
 			matcher = Pattern.compile(pattern).matcher(parent.TP.getText());
@@ -110,7 +109,6 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 		setVisible(false);
 		dispose();
 	}
-
 	@Override
 	public void keyTyped(KeyEvent e) {
 		throw new UnsupportedOperationException();
@@ -118,12 +116,10 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// System.out.println(e.getKeyCode());
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			closeDialog();
 		}
 	}
-
 	@Override
 	public void keyReleased(KeyEvent e) {
 		throw new UnsupportedOperationException();
