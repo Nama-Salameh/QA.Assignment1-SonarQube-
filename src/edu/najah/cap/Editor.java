@@ -315,11 +315,11 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			return;
 		file = dialog.getSelectedFile();
 		PrintWriter writer = getWriter(file);
-    if (writer != null) {
-		writer.write(textPanel.getText());
-		changed = false;
-		setTitle("Editor - " + file.getName());
-    }
+    	if (writer != null) {
+			writer.write(textPanel.getText());
+			changed = false;
+			setTitle("Editor - " + file.getName());
+    	}
 	}
 
 	private static PrintWriter getWriter(File file) {

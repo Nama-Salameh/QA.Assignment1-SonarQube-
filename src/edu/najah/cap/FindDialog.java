@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-@SuppressWarnings("serial")
 public class FindDialog extends JDialog implements ActionListener, KeyListener {
 
 	Editor parentEditor;
@@ -71,6 +70,8 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 		caseSensitive.addKeyListener(this);
 	}
 
+	private static final String MESSAGE = "You have reached the end of the file";
+	private static final String TITLE = "End of file";
 	private void find(String pattern) {
 		if (!finishedFinding) {
 			if (matcher.find()) {
@@ -80,7 +81,7 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 				parentEditor.getTextPanel().select(selectionStart, selectionEnd);
 			} else {
 				finishedFinding = true;
-				JOptionPane.showMessageDialog(this, "You have reached the end of the file", "End of file",
+				JOptionPane.showMessageDialog(this, MESSAGE, TITLE,
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
