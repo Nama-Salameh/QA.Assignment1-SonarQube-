@@ -16,6 +16,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -43,7 +45,17 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	public static final JMenuItem paste=new JMenuItem("Paste");
 	public static final JMenuItem cut= new JMenuItem("Cut");
 	public static final JMenuItem move=new JMenuItem("move");
-	public  boolean changed = false;
+
+	private boolean changed = false;
+
+	public boolean isChanged() {
+		return changed;
+	}
+
+	public void setChanged(boolean changed) {
+		this.changed = changed;
+	}
+
 	protected File file;
 	
 	private String[] actions = {"Open","Save","New","Edit","Quit", "Save as..."};
@@ -60,14 +72,14 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 
 		menu = new JMenuBar();
 		setJMenuBar(menu);
-		BuildMenu();
+		buildMenu();
 		//The size of window
 		setSize(500, 500);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	private void BuildMenu() {
+	private void buildMenu() {
 		buildFileMenu();
 		buildEditMenu();
 	}
@@ -92,7 +104,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		save.addActionListener(this);
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
 		JMenuItem saveas = new JMenuItem(actions[5]);
-		saveas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		saveas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
 		jmfile.add(saveas);
 		saveas.addActionListener(this);
 		JMenuItem quit = new JMenuItem(actions[4]);
@@ -233,7 +245,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 						if (ans == 1)// no option 
 							return;
 					} else {
-						System.out.println("No change");
+						Logger.getLogger("No change");
 						return;
 					}
 					if (file == null) {
@@ -241,31 +253,14 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 						return;
 					}
 					String text = TP.getText();
-					System.out.println(text);
-					try {
-						PrintWriter writer = new PrintWriter(file);
-						if (!file.canWrite())
-							throw new Exception("Cannot write file!");
-						writer.write(text);
-						changed = false;
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-
-				file = dialog.getSelectedFile();
-				//Read file 
-				StringBuilder rs = new StringBuilder();
-				try (	FileReader fr = new FileReader(file);		
-						BufferedReader reader = new BufferedReader(fr);) {
-					String line;
-					while ((line = reader.readLine()) != null) {
-						rs.append(line + "\n");
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Cannot read file !", "Error !", 0);//0 means show Error Dialog
+					Logger.getLogger(text);
+					fileWriter(file, text);
 				}
-				
+				file = dialog.getSelectedFile();
+				//Read file
+				StringBuilder rs = new StringBuilder();
+				readFileToBuilder(rs, file);
+
 				TP.setText(rs.toString());
 				changed = false;
 				setTitle("Editor - " + file.getName());
@@ -275,9 +270,35 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			//0 means show Error Dialog
 			JOptionPane.showMessageDialog(null, e, "Error", 0);
 		}
+
 	}
 
-	
+	private void fileWriter(File file, String text) {
+		try { //this one
+			PrintWriter writer = new PrintWriter(file);
+			if (!file.canWrite())
+				throw new Exception("Cannot write file!"); //this one
+			writer.write(text);
+			changed = false;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void readFileToBuilder(StringBuilder rs, File file) {
+		try (
+				FileReader fr = new FileReader(file);
+				BufferedReader reader = new BufferedReader(fr);) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				rs.append(line + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Cannot read file !", "Error !", 0);//0 means show Error Dialog
+		}
+	}
+
 	private void saveAs(String dialogTitle) {
 		dialogTitle = dialogTitle.toUpperCase();
 		JFileChooser dialog = new JFileChooser(System.getProperty(USER_HOME));
@@ -287,9 +308,11 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			return;
 		file = dialog.getSelectedFile();
 		PrintWriter writer = getWriter(file);
-		writer.write(TP.getText());
-		changed = false;
-		setTitle("Editor - " + file.getName());
+		if (writer != null) {
+				writer.write(TP.getText());
+			changed = false;
+			setTitle("Editor - " + file.getName());
+		}
 	}
 
 	private static PrintWriter getWriter(File file) {
@@ -297,22 +320,6 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			return new PrintWriter(file);
 		} catch (Exception e){
 			return null;
-		}
-	}
-
-	private void saveAsText(String dialogTitle) throws EditorSaveAsException {
-		JFileChooser dialog = new JFileChooser(System.getProperty(USER_HOME));
-		dialog.setDialogTitle(dialogTitle);
-		int result = dialog.showSaveDialog(this);
-		if (result != 0)//0 value if approve (yes, ok) is chosen.
-			return;
-		file = dialog.getSelectedFile();
-		try (PrintWriter writer = new PrintWriter(file);){
-			writer.write(TP.getText());
-			changed = false;
-			setTitle("Save as Text Editor - " + file.getName());
-		} catch (FileNotFoundException e) {
-			throw new EditorSaveAsException(e.getMessage());
 		}
 	}
 
