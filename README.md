@@ -35,3 +35,6 @@ Portability;  Reusability;  Interoperability .</p>
 
 ## false Negative issues:
  <p>1. in FindDialog class (46) : setLayout(new GridLayout(3, 1)); must 3 and 1 be replaced by magic numbers , It gives the number meaning so anyone can read it and know what the number is used for.</p>
+<P>2. in Editor class : sell variable must be in a clear and meaningful name (selectAll) </P>
+<P>3. in Editor class : jmfile variable must be in a clear and meaningful name (jMFile) </P>
+<p>4.  in Editor class : saveas variable must follow java conventions (saveAs) </p>
