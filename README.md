@@ -43,3 +43,6 @@ Portability;  Reusability;  Interoperability .</p>
  <P>5. in Editor class : in "loadFile" and "actionPerformed" methods the condition if(changed) duplicated 2 times inside each other, and the internal if having else sentence (this unreachable code) and didn't discover it. </P>
  <p>6. Strings such as "Cannot write file!" , "Cannot read file !" , "You have reached the end of the file" --> must be in a static final variables </p>
 
+## false Positive issues:
+The code does not contain false Positive issues.
+
