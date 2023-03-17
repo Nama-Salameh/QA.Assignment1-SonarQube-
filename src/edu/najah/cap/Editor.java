@@ -41,7 +41,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	
 	private final String[] actions = {"Open","Save","New","Edit","Quit", "Save as..."};
 	
-	protected JMenu jmFile;
+	protected JMenu jMenuFile;
 
 	private static final String MESSAGE = "The file has changed. You want to save it?";
 	public Editor() {
@@ -67,30 +67,30 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	}
 
 	private void buildFileMenu() {
-		jmFile = new JMenu("File");
-		jmFile.setMnemonic('F');
-		menu.add(jmFile);
+		jMenuFile = new JMenu("File");
+		jMenuFile.setMnemonic('F');
+		menu.add(jMenuFile);
 		JMenuItem n = new JMenuItem(actions[2]);
 		n.setMnemonic('N');
 		n.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
 		n.addActionListener(this);
-		jmFile.add(n);
+		jMenuFile.add(n);
 		JMenuItem open = new JMenuItem(actions[0]);
-		jmFile.add(open);
+		jMenuFile.add(open);
 		open.addActionListener(this);
 		open.setMnemonic('O');
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
 		JMenuItem save = new JMenuItem(actions[1]);
-		jmFile.add(save);
+		jMenuFile.add(save);
 		save.setMnemonic('S');
 		save.addActionListener(this);
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
 		JMenuItem saveAs = new JMenuItem(actions[5]);
 		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
-		jmFile.add(saveAs);
+		jMenuFile.add(saveAs);
 		saveAs.addActionListener(this);
 		JMenuItem quit = new JMenuItem(actions[4]);
-		jmFile.add(quit);
+		jMenuFile.add(quit);
 		quit.addActionListener(this);
 		quit.setMnemonic('Q');
 		quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
