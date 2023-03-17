@@ -6,6 +6,7 @@
 ## 1.Product operation:
 <p> Requirements that directly affect the daily operation of the software :
 Correctness, reliability, efficiency, integrity, and usability</p>
+ <p> error(276,27) printWriter must be closed (Resources should be closed): Failure to properly close resources will result in a resource leak which could bring first the application and then perhaps the box the application is on to their knees. So must close resources to prevent memory leakage, affects to the data and the availability of the system . </p>
 
 
 ## 2.Product revision:
