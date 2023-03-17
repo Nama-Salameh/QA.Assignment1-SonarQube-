@@ -204,7 +204,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 						throw new CanNotWriteFileException("Cannot write file!");
 					writer.write(text);
 					changed = false;
-				} catch (Exception | CanNotWriteFileException ex) {
+				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 
