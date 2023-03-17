@@ -111,6 +111,7 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -121,6 +122,7 @@ public class FindDialog extends JDialog implements ActionListener, KeyListener {
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
+		throw new UnsupportedOperationException();
 	}
 
 }
