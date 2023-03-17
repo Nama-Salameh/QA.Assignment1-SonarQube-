@@ -264,13 +264,11 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 				TP.setText(rs.toString());
 				changed = false;
 				setTitle("Editor - " + file.getName());
-			}
-		} catch (Exception e) {
+			} catch (Exception e) {
 			e.printStackTrace();
 			//0 means show Error Dialog
 			JOptionPane.showMessageDialog(null, e, "Error", 0);
 		}
-
 	}
 
 	private void fileWriter(File file, String text) {
