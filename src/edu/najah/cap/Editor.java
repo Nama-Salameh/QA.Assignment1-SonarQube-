@@ -51,7 +51,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	
 	private final String[] actions = {"Open","Save","New","Edit","Quit", "Save as..."};
 	
-	protected JMenu jmfile;
+	protected JMenu jmFile;
 
 	private static final String MESSAGE = "The file has changed. You want to save it?";
 	public Editor() {
@@ -77,30 +77,30 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	}
 
 	private void buildFileMenu() {
-		jmfile = new JMenu("File");
-		jmfile.setMnemonic('F');
-		menu.add(jmfile);
+		jmFile = new JMenu("File");
+		jmFile.setMnemonic('F');
+		menu.add(jmFile);
 		JMenuItem n = new JMenuItem(actions[2]);
 		n.setMnemonic('N');
 		n.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
 		n.addActionListener(this);
-		jmfile.add(n);
+		jmFile.add(n);
 		JMenuItem open = new JMenuItem(actions[0]);
-		jmfile.add(open);
+		jmFile.add(open);
 		open.addActionListener(this);
 		open.setMnemonic('O');
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
 		JMenuItem save = new JMenuItem(actions[1]);
-		jmfile.add(save);
+		jmFile.add(save);
 		save.setMnemonic('S');
 		save.addActionListener(this);
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
-		JMenuItem saveas = new JMenuItem(actions[5]);
-		saveas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
-		jmfile.add(saveas);
-		saveas.addActionListener(this);
+		JMenuItem saveAs = new JMenuItem(actions[5]);
+		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
+		jmFile.add(saveAs);
+		saveAs.addActionListener(this);
 		JMenuItem quit = new JMenuItem(actions[4]);
-		jmfile.add(quit);
+		jmFile.add(quit);
 		quit.addActionListener(this);
 		quit.setMnemonic('Q');
 		quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
@@ -134,11 +134,11 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		edit.add(find);
 		find.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK));
 		// select all
-		JMenuItem sall = new JMenuItem("Select All");
-		sall.setMnemonic('A');
-		sall.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
-		sall.addActionListener(this);
-		edit.add(sall);
+		JMenuItem selectALL = new JMenuItem("Select All");
+		selectALL.setMnemonic('A');
+		selectALL.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
+		selectALL.addActionListener(this);
+		edit.add(selectALL);
 	}
 
 	private void exitChoice(String action){
@@ -151,9 +151,10 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			loadFile();
 		}
 	}
+	private static final String SAVE_FILE = "Save file";
 	private int confirmSaveFile(){
 			// 0 means yes and no option, 2 Used for warning messages.
-			return JOptionPane.showConfirmDialog(null, MESSAGE, "Save file", 0, 2);
+			return JOptionPane.showConfirmDialog(null, MESSAGE, SAVE_FILE, 0, 2);
 	}
 	private void saveFileChoice(String action){
 		if (action.equals(actions[1])) {
@@ -275,7 +276,7 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 			//0 means show Error Dialog
-			JOptionPane.showMessageDialog(null, e, "Error", 0);
+			JOptionPane.showMessageDialog(null, e, String.valueOf(JOptionPane.ERROR_MESSAGE), 0);
 		}
 	}
 
@@ -306,17 +307,17 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 			 BufferedReader reader = new BufferedReader(fr)) {
 			String line;
 			while ((line = reader.readLine()) != null) {
-				rs.append(line + "\n");
+				rs.append(line).append("\n");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Cannot read file !", "Error !", 0);//0 means show Error Dialog
+			JOptionPane.showMessageDialog(null, "Cannot read file !", String.valueOf(JOptionPane.ERROR_MESSAGE), 0);//0 means show Error Dialog
 		}
 		textPanel.setText(rs.toString());
 	}
 
 	private void fileWriter(File file, String text) {
-		try (PrintWriter writer = new PrintWriter(file);){ //this one
+		try (PrintWriter writer = new PrintWriter(file)){ //this one
 			if (!file.canWrite())
 				throw new CanNotWriteFileException("Cannot write file!"); //this one
 			writer.write(text);
@@ -329,14 +330,14 @@ public class Editor extends JFrame implements ActionListener, DocumentListener {
 	private void readFileToBuilder(StringBuilder rs, File file) {
 		try (
 				FileReader fr = new FileReader(file);
-				BufferedReader reader = new BufferedReader(fr);) {
+				BufferedReader reader = new BufferedReader(fr)) {
 			String line;
 			while ((line = reader.readLine()) != null) {
-				rs.append(line + "\n");
+				rs.append(line).append("\n");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Cannot read file !", "Error !", 0);//0 means show Error Dialog
+			JOptionPane.showMessageDialog(null, "Cannot read file !", String.valueOf(JOptionPane.ERROR_MESSAGE), 0);//0 means show Error Dialog
 		}
 	}
 
